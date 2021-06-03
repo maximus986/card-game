@@ -48,7 +48,7 @@
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-empty-interface": "off",
     "no-console": [
-      "error",
+      "warn",
       {
         "allow": [
           "warn",
