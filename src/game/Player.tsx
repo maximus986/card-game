@@ -1,41 +1,43 @@
-import { Card } from 'data/game/cardsDeck';
+import { Card as CardModel } from 'data/game/cardsDeck';
 import React from 'react';
 import styled from '@emotion/styled';
-import { PlayerName, PlayerScore } from 'components';
+import { Card, PlayerName, PlayerScore } from 'components';
 
 export const Player = () => (
   <div>
     <PlayerInfo>
-      <PlayerName>Player</PlayerName>
+      <PlayerName variant="human">Me</PlayerName>
       <PlayerScore>0</PlayerScore>
     </PlayerInfo>
     <CardsList>
       {mockCards.map((card) => (
-        <CardsListItem key={card.code} onClick={() => console.log(card.code)}>
-          <Figure>
-            <img src={card.image} alt="" />
-          </Figure>
-        </CardsListItem>
+        <li key={card.code}>
+          <Button onClick={() => console.log(card.code)} type="button">
+            <Card image={card.image} />
+          </Button>
+        </li>
       ))}
     </CardsList>
   </div>
 );
 
 const PlayerInfo = styled.div`
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 `;
 
 const CardsList = styled.ul`
   display: flex;
 `;
 
-const CardsListItem = styled.li``;
-
-const Figure = styled.figure`
-  width: 100px;
+const Button = styled.button`
+  position: relative;
+  transition: all linear 0.2s;
+  &:hover {
+    bottom: 20px;
+  }
 `;
 
-const mockCards: Card[] = [
+const mockCards: CardModel[] = [
   {
     code: 'AS',
     image: 'https://deckofcardsapi.com/static/img/AS.png',

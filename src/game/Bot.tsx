@@ -1,8 +1,8 @@
-import { Card } from 'data/game/cardsDeck';
+import { Card as CardModel } from 'data/game/cardsDeck';
 import React from 'react';
 import cardBack from '../images/card-back.jpg';
 import styled from '@emotion/styled';
-import { PlayerName, PlayerScore } from 'components';
+import { Card, PlayerName, PlayerScore } from 'components';
 
 interface BotProps {
   name: string;
@@ -17,9 +17,7 @@ export const Bot = ({ name }: BotProps) => (
     <CardsList>
       {mockCards.map((card, index) => (
         <CardsListItem key={card.code} style={{ left: `${index * 50}px`, zIndex: index }}>
-          <Figure>
-            <img src={cardBack} alt="" />
-          </Figure>
+          <Card image={cardBack} />
         </CardsListItem>
       ))}
     </CardsList>
@@ -27,7 +25,7 @@ export const Bot = ({ name }: BotProps) => (
 );
 
 const PlayerInfo = styled.div`
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 `;
 
 const CardsList = styled.ul`
@@ -45,7 +43,7 @@ const Figure = styled.figure`
   width: 100px;
 `;
 
-const mockCards: Pick<Card, 'code' | 'value'>[] = [
+const mockCards: Pick<CardModel, 'code' | 'value'>[] = [
   {
     code: 'AS',
     value: 'ACE',

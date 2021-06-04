@@ -1,10 +1,19 @@
 import React, { FunctionComponent } from 'react';
 import styled from '@emotion/styled';
 
-// TODO: Make this styled not react component
-export const PlayerName: FunctionComponent = ({ children }) => <Name>{children}</Name>;
+type PlayerNameVariant = 'human' | 'bot';
 
-const Name = styled.h2`
+interface PlayerNameProps {
+  variant?: PlayerNameVariant;
+}
+
+export const PlayerName: FunctionComponent<PlayerNameProps> = ({
+  variant = 'bot',
+  children,
+}) => <Name {...{ variant }}>{children}</Name>;
+
+const Name = styled.h2<{ variant: PlayerNameVariant }>`
   font-size: 36px;
   margin-bottom: 8px;
+  color: ${(props) => (props.variant === 'bot' ? '#6DB06D' : '#ffc400')};
 `;

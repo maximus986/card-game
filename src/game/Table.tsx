@@ -44,7 +44,6 @@ export const Table = ({ cards }: TableProps) => (
 const CardsList = styled.ul`
   width: 400px;
   height: 400px;
-  background: cyan;
   position: relative;
 `;
 

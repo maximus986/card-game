@@ -19,6 +19,13 @@ export const GlobalStyle = () => (
       #root > div {
         height: 100%;
       }
+      button {
+        border: none;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+        background: transparent;
+      }
     `}
   />
 );
