@@ -1,7 +1,11 @@
 import { gameApi } from 'api/game/gameApi';
-import { Deck } from './deck';
+import { CardsDeck } from './cardsDeck';
 
-const shuffleCardsDeck = (): Promise<Deck> =>
-  gameApi.shuffleCardsDeck().then((deck) => ({ deckId: deck.deck_id }));
+const fetchCardsDeck = (): Promise<CardsDeck> =>
+  gameApi.fetchCardsDeck().then((deck) => ({
+    deckId: deck.deck_id,
+    cards: deck.cards,
+    remaining: deck.remaining,
+  }));
 
-export const gameRepository = { shuffleCardsDeck };
+export const gameRepository = { fetchCardsDeck };

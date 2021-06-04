@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { useDispatch } from 'react-redux';
-import { setDeckId, shuffleCardsDeck } from 'game/gameSlice';
+import { fetchCardsDeck } from 'game/gameSlice';
 import { Game } from 'game/Game';
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(shuffleCardsDeck());
+    dispatch(fetchCardsDeck());
   }, [dispatch]);
 
   return <Game />;

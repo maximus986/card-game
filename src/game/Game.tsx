@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 
 export const Game = () => {
-  const deckId = useSelector((state: RootState) => state.game.deckId);
-  console.log(deckId);
+  const cardsDeck = useSelector((state: RootState) => state.game.cardsDeck);
+  console.log(cardsDeck);
 
-  return <div>Deck</div>;
+  return <pre>{JSON.stringify(cardsDeck, null, 2)}</pre>;
 };

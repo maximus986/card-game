@@ -1,32 +1,33 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CardsDeck } from 'data/game/cardsDeck';
 import { gameRepository } from 'data/game/gameRepository';
 import { AppThunk } from 'store';
 
 interface GameState {
-  deckId: string;
+  cardsDeck: CardsDeck | null;
 }
 
-const initialState: GameState = { deckId: '' };
+const initialState: GameState = { cardsDeck: null };
 
 const gameSlice = createSlice({
   name: 'gameSlice',
   initialState,
   reducers: {
-    setDeckId(state, { payload }: PayloadAction<string>) {
-      state.deckId = payload;
+    setCardsDeck(state, { payload }: PayloadAction<CardsDeck>) {
+      state.cardsDeck = payload;
     },
   },
 });
 
-export const shuffleCardsDeck = (): AppThunk => async (dispatch) => {
+export const fetchCardsDeck = (): AppThunk => async (dispatch) => {
   try {
-    const deck = await gameRepository.shuffleCardsDeck();
-    dispatch(setDeckId(deck.deckId));
+    const cardsDeck = await gameRepository.fetchCardsDeck();
+    dispatch(setCardsDeck(cardsDeck));
   } catch (error) {
     console.log(error);
   }
 };
 
-export const { setDeckId } = gameSlice.actions;
+export const { setCardsDeck } = gameSlice.actions;
 
 export default gameSlice;

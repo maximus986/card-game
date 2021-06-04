@@ -1,6 +1,13 @@
-export interface ShuffleCardsDeckDto {
+export interface CardsDeckDto {
   success: boolean;
   deck_id: string;
-  shuffled: boolean;
   remaining: number;
+  cards: CardDto[];
+}
+
+interface CardDto {
+  image: string;
+  value: string;
+  suit: string;
+  code: string;
 }
