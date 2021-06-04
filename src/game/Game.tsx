@@ -7,35 +7,98 @@ import { Bot } from './Bot';
 import { Player } from './Player';
 import { Table } from './Table';
 
+// subscribes to numberOfPlayer which can be 2, 3 or 4
+
 export const Game = () => {
+  const gameState = useSelector((state: RootState) => state.game.gameState);
   const cardsDeck = useSelector((state: RootState) => state.game.cardsDeck);
+
+  if (gameState === 'initial') {
+    return null;
+  }
+
   return (
-    <Container>
-      <PlayerContainer>
-        <Bot name="Rosetta" />
-      </PlayerContainer>
-      <Flex>
-        <div>
-          <Bot name="Carolyn" />
-        </div>
-        <Table cards={mockTableCards} />
-        <div>
-          <Bot name="Ola" />
-        </div>
-      </Flex>
-      <PlayerContainer>
-        <Player />
-      </PlayerContainer>
-    </Container>
+    <>
+      <TwoPlayers />
+      <ThreePlayers />
+      <FourPlayers />
+    </>
   );
 };
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 50px;
-  background: #0f3923;
-`;
+const TwoPlayers = () => {
+  const numberOfPlayers = useSelector((state: RootState) => state.game.numberOfPlayers);
+  return (
+    <>
+      {numberOfPlayers === 2 ? (
+        <>
+          <BotContainer />
+          <Flex>
+            <BotContainer />
+            <Table cards={mockTableCards} />
+            <BotContainer>
+              <Bot name="Ola" />
+            </BotContainer>
+          </Flex>
+          <PlayerContainer>
+            <Player />
+          </PlayerContainer>
+        </>
+      ) : null}
+    </>
+  );
+};
+const ThreePlayers = () => {
+  const numberOfPlayers = useSelector((state: RootState) => state.game.numberOfPlayers);
+  return (
+    <>
+      {numberOfPlayers === 3 ? (
+        <>
+          <BotContainer>
+            <Bot name="Rosetta" />
+          </BotContainer>
+          <Flex>
+            <BotContainer />
+            <Table cards={mockTableCards} />
+            <BotContainer>
+              <Bot name="Ola" />
+            </BotContainer>
+          </Flex>
+          <PlayerContainer>
+            <Player />
+          </PlayerContainer>
+        </>
+      ) : null}
+    </>
+  );
+};
+
+const FourPlayers = () => {
+  const numberOfPlayers = useSelector((state: RootState) => state.game.numberOfPlayers);
+  return (
+    <>
+      {numberOfPlayers === 4 ? (
+        <>
+          <BotContainer>
+            <Bot name="Rosetta" />
+          </BotContainer>
+          <Flex>
+            <BotContainer>
+              <Bot name="Carolyn" />
+            </BotContainer>
+            <Table cards={mockTableCards} />
+            <BotContainer>
+              <Bot name="Ola" />
+            </BotContainer>
+          </Flex>
+          <PlayerContainer>
+            <Player />
+          </PlayerContainer>
+        </>
+      ) : null}
+    </>
+  );
+};
 
 const Flex = styled.div`
   display: flex;
@@ -45,6 +108,12 @@ const Flex = styled.div`
 `;
 
 const PlayerContainer = styled.div`
+  margin: 0 auto;
+`;
+
+const BotContainer = styled.div`
+  height: 160px;
+  width: 551px;
   margin: 0 auto;
 `;
 

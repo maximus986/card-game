@@ -31,8 +31,6 @@ const PlayerInfo = styled.div`
 const CardsList = styled.ul`
   display: flex;
   position: relative;
-  height: 160px;
-  width: 551px;
 `;
 
 const CardsListItem = styled.li`
