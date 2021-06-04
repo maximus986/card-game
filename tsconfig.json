@@ -25,14 +25,8 @@
     "components/index": [
       "./components/index"
     ],
-    "data/index": [
-      "./data/index"
-    ],
     "store": [
       "./store.ts"
-    ],
-    "environment": [
-      "./environment.ts"
     ],
   },
   "include": [
