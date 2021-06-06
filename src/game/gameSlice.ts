@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Card, CardsDeck } from 'data/game/cardsDeck';
 import { gameRepository } from 'data/game/gameRepository';
 import { AppThunk } from 'store';
-import { chunk } from 'lodash';
+import { chunk, range } from 'lodash';
 
 type CardGame = 'initial' | 'start' | 'roundEnd' | 'end';
 export type Player = 'me' | 'bot1' | 'bot2' | 'bot3';
@@ -33,15 +33,10 @@ interface GameState {
 const initialState: GameState = {
   cardsDeck: null,
   numberOfPlayers: 0,
-  gameState: 'end',
+  gameState: 'initial',
   tableCards: [],
   nextPlayer: 'me',
-  score: [
-    { playerId: 'me', value: 0 },
-    { playerId: 'bot1', value: 0 },
-    { playerId: 'bot2', value: 0 },
-    { playerId: 'bot3', value: 0 },
-  ],
+  score: [],
   playerCards: [],
   loadingCards: true,
 };
@@ -55,6 +50,13 @@ const gameSlice = createSlice({
     },
     setNumberOfPlayers(state, { payload }: PayloadAction<number>) {
       state.numberOfPlayers = payload;
+      range(0, payload).forEach((i) => {
+        if (i === 0) {
+          state.score.push({ playerId: 'me', value: 0 });
+        } else {
+          state.score.push({ playerId: `bot${i}` as Player, value: 0 });
+        }
+      });
     },
     setGameState(state, { payload }: PayloadAction<CardGame>) {
       state.gameState = payload;
