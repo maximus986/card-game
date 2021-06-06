@@ -1,25 +1,49 @@
 import { Card as CardModel } from 'data/game/cardsDeck';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Card, PlayerName, PlayerScore } from 'components';
+import { useDispatch, useSelector } from 'react-redux';
+import { setNextPlayer, setTableCards, NextPlayer } from './gameSlice';
+import { RootState } from 'store';
 
-export const Player = () => (
-  <div>
-    <PlayerInfo>
-      <PlayerName variant="human">Me</PlayerName>
-      <PlayerScore>0</PlayerScore>
-    </PlayerInfo>
-    <CardsList>
-      {mockCards.map((card) => (
-        <li key={card.code}>
-          <Button onClick={() => console.log(card.code)} type="button">
-            <Card image={card.image} />
-          </Button>
-        </li>
-      ))}
-    </CardsList>
-  </div>
-);
+export const Player = () => {
+  const [cards, setCards] = useState<CardModel[]>(mockCards);
+  const nextPlayer = useSelector((state: RootState) => state.game.nextPlayer);
+  const dispatch = useDispatch();
+
+  // TODO: Candidate for custom hook
+  const handlePlay = (card: CardModel) => {
+    dispatch(setTableCards(card));
+    const afterPlayCards = cards.filter((playedCard) => playedCard.code !== card.code);
+    setCards(afterPlayCards);
+    dispatch(setNextPlayer('bot1'));
+  };
+  return (
+    <div>
+      <PlayerInfo>
+        <PlayerName variant="human">Me</PlayerName>
+        <PlayerScore>0</PlayerScore>
+      </PlayerInfo>
+      <CardsList>
+        {cards.map((card) => (
+          <li key={card.code}>
+            <Button
+              onClick={() => {
+                handlePlay(card);
+                console.log(card.code);
+              }}
+              type="button"
+              disabled={nextPlayer !== 'me'}
+              {...{ nextPlayer }}
+            >
+              <Card image={card.image} />
+            </Button>
+          </li>
+        ))}
+      </CardsList>
+    </div>
+  );
+};
 
 const PlayerInfo = styled.div`
   margin-bottom: 24px;
@@ -29,12 +53,13 @@ const CardsList = styled.ul`
   display: flex;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ nextPlayer: NextPlayer }>`
   position: relative;
   display: block;
   transition: all linear 0.2s;
+  cursor: ${(props) => (props.nextPlayer === 'me' ? 'pointer' : 'initial')};
   &:hover {
-    transform: translateY(-20px);
+    transform: ${(props) => (props.nextPlayer === 'me' ? 'translateY(-20px)' : null)};
   }
 `;
 

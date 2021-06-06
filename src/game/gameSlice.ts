@@ -1,20 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CardsDeck } from 'data/game/cardsDeck';
+import { Card, CardsDeck } from 'data/game/cardsDeck';
 import { gameRepository } from 'data/game/gameRepository';
 import { AppThunk } from 'store';
 
 type CardGame = 'initial' | 'start' | 'end';
+export type NextPlayer = 'me' | 'bot1' | 'bot2' | 'bot3';
 
 interface GameState {
   cardsDeck: CardsDeck | null;
   numberOfPlayers: number;
   gameState: CardGame;
+  tableCards: Card[];
+  nextPlayer: NextPlayer;
 }
 
 const initialState: GameState = {
   cardsDeck: null,
   numberOfPlayers: 4,
   gameState: 'initial',
+  tableCards: [],
+  nextPlayer: 'me',
 };
 
 const gameSlice = createSlice({
@@ -31,6 +36,12 @@ const gameSlice = createSlice({
     setGameState(state, { payload }: PayloadAction<CardGame>) {
       state.gameState = payload;
     },
+    setTableCards(state, { payload }: PayloadAction<Card>) {
+      state.tableCards.push(payload);
+    },
+    setNextPlayer(state, { payload }: PayloadAction<NextPlayer>) {
+      state.nextPlayer = payload;
+    },
   },
 });
 
@@ -43,6 +54,12 @@ export const fetchCardsDeck = (): AppThunk => async (dispatch) => {
   }
 };
 
-export const { setCardsDeck, setNumberOfPlayers, setGameState } = gameSlice.actions;
+export const {
+  setCardsDeck,
+  setNumberOfPlayers,
+  setGameState,
+  setTableCards,
+  setNextPlayer,
+} = gameSlice.actions;
 
 export default gameSlice;

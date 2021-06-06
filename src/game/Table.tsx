@@ -1,10 +1,8 @@
 import styled from '@emotion/styled';
 import { Card } from 'data/game/cardsDeck';
 import React from 'react';
-
-interface TableProps {
-  cards: Card[];
-}
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
 
 const positionMap: Record<number, React.CSSProperties> = {
   0: {
@@ -29,17 +27,20 @@ const positionMap: Record<number, React.CSSProperties> = {
   },
 };
 
-export const Table = ({ cards }: TableProps) => (
-  <CardsList>
-    {cards.map((card, index) => (
-      <CardsListItem key={card.code} style={positionMap[index]}>
-        <figure>
-          <img src={card.image} alt="" />
-        </figure>
-      </CardsListItem>
-    ))}
-  </CardsList>
-);
+export const Table = () => {
+  const cards = useSelector((state: RootState) => state.game.tableCards);
+  return (
+    <CardsList>
+      {cards.map((card, index) => (
+        <CardsListItem key={card.code} style={positionMap[index]}>
+          <figure>
+            <img src={card.image} alt="" />
+          </figure>
+        </CardsListItem>
+      ))}
+    </CardsList>
+  );
+};
 
 const CardsList = styled.ul`
   width: 400px;

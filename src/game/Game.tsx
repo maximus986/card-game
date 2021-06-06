@@ -1,13 +1,10 @@
-import styled from '@emotion/styled';
-import { Card } from 'data/game/cardsDeck';
 import React from 'react';
+import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { Bot } from './Bot';
 import { Player } from './Player';
 import { Table } from './Table';
-
-// subscribes to numberOfPlayer which can be 2, 3 or 4
 
 export const Game = () => {
   const gameState = useSelector((state: RootState) => state.game.gameState);
@@ -35,7 +32,7 @@ const TwoPlayers = () => {
           <BotContainer />
           <Flex>
             <BotContainer />
-            <Table cards={mockTableCards} />
+            <Table />
             <BotContainer>
               <Bot name="Ola" />
             </BotContainer>
@@ -59,7 +56,7 @@ const ThreePlayers = () => {
           </BotContainer>
           <Flex>
             <BotContainer />
-            <Table cards={mockTableCards} />
+            <Table />
             <BotContainer>
               <Bot name="Ola" />
             </BotContainer>
@@ -86,7 +83,7 @@ const FourPlayers = () => {
             <BotContainer>
               <Bot name="Carolyn" />
             </BotContainer>
-            <Table cards={mockTableCards} />
+            <Table />
             <BotContainer>
               <Bot name="Ola" />
             </BotContainer>
@@ -116,26 +113,3 @@ const BotContainer = styled.div`
   width: 551px;
   margin: 0 auto;
 `;
-
-const mockTableCards: Card[] = [
-  {
-    code: 'AS',
-    image: 'https://deckofcardsapi.com/static/img/AS.png',
-    value: 'ACE',
-  },
-  {
-    code: '2S',
-    image: 'https://deckofcardsapi.com/static/img/2S.png',
-    value: '2',
-  },
-  {
-    code: '7S',
-    image: 'https://deckofcardsapi.com/static/img/7S.png',
-    value: '7',
-  },
-  {
-    code: '2H',
-    image: 'https://deckofcardsapi.com/static/img/2H.png',
-    value: '2',
-  },
-];
