@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { Bot } from './Bot';
 import { Player } from './Player';
 import { Table } from './Table';
-import { fetchCardsDeck } from './gameSlice';
 
 export const Game = () => (
   <>
