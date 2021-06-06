@@ -30,7 +30,6 @@ export const Player = () => {
             <Button
               onClick={() => {
                 handlePlay(card);
-                console.log(card.code);
               }}
               type="button"
               disabled={nextPlayer !== 'me'}

@@ -32,7 +32,7 @@ export const Table = () => {
   return (
     <CardsList>
       {cards.map((card, index) => (
-        <CardsListItem key={card.code} style={positionMap[index]}>
+        <CardsListItem key={`${card.code}_${index}`} style={positionMap[index]}>
           <figure>
             <img src={card.image} alt="" />
           </figure>
