@@ -1,11 +1,12 @@
 import { Card as CardModel } from 'data/game/cardsDeck';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import cardBack from '../images/card-back.jpg';
 import styled from '@emotion/styled';
 import { Card, PlayerName, PlayerScore } from 'components';
-import { Player, setNextPlayer, setTableCards } from './gameSlice';
+import { Player, setGameState, setNextPlayer, setTableCards } from './gameSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'store';
+import { setTimeout } from 'timers';
 
 interface BotProps {
   name: string;
@@ -14,8 +15,12 @@ interface BotProps {
 }
 
 export const Bot = ({ name, botId, nextToPlay }: BotProps) => {
-  const [cards, setCards] = useState<CardModel[]>(mockCards);
+  const playerCards = useSelector((state: RootState) => state.game.playerCards);
+  const [cards, setCards] = useState<CardModel[]>(
+    () => playerCards.find((item) => item.playerId === botId)?.cards ?? [],
+  );
   const nextPlayer = useSelector((state: RootState) => state.game.nextPlayer);
+  const numberOfPlayers = useSelector((state: RootState) => state.game.numberOfPlayers);
   const score = useSelector((state: RootState) => state.game.score);
   const dispatch = useDispatch();
 
@@ -28,6 +33,17 @@ export const Bot = ({ name, botId, nextToPlay }: BotProps) => {
   };
 
   const playerScore = score.find((item) => item.playerId === botId)?.value;
+  const handleEndGame = useCallback(() => {
+    if (
+      numberOfPlayers - 1 ===
+        parseInt(botId[botId.lastIndexOf(String(numberOfPlayers - 1))], 10) &&
+      cards.length === 0
+    ) {
+      dispatch(setGameState('end'));
+    } else {
+      dispatch(setGameState('start'));
+    }
+  }, [numberOfPlayers, botId, cards]);
 
   // eslint-disable-next-line consistent-return
   useEffect(() => {
@@ -41,6 +57,13 @@ export const Bot = ({ name, botId, nextToPlay }: BotProps) => {
       };
     }
   }, [nextPlayer]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      handleEndGame();
+    }, 3000);
+    return () => clearTimeout(timeout);
+  }, [handleEndGame]);
 
   return (
     <div>
@@ -74,56 +97,3 @@ const CardsList = styled.ul`
 const CardsListItem = styled.li`
   position: absolute;
 `;
-
-export const mockCards: CardModel[] = [
-  {
-    code: 'AS',
-    value: 1,
-    image: 'https://deckofcardsapi.com/static/img/AS.png',
-  },
-  {
-    code: '5H',
-    value: 5,
-    image: 'https://deckofcardsapi.com/static/img/5H.png',
-  },
-  {
-    code: 'KS',
-    value: 14,
-    image: 'https://deckofcardsapi.com/static/img/KS.png',
-  },
-  {
-    code: '7S',
-    value: 7,
-    image: 'https://deckofcardsapi.com/static/img/7S.png',
-  },
-  {
-    code: '2S',
-    value: 2,
-    image: 'https://deckofcardsapi.com/static/img/2S.png',
-  },
-  {
-    code: 'QH',
-    value: 13,
-    image: 'https://deckofcardsapi.com/static/img/QH.png',
-  },
-  {
-    code: '6C',
-    value: 6,
-    image: 'https://deckofcardsapi.com/static/img/6C.png',
-  },
-  {
-    code: 'JC',
-    value: 12,
-    image: 'https://deckofcardsapi.com/static/img/JC.png',
-  },
-  {
-    code: '5D',
-    value: 5,
-    image: 'https://deckofcardsapi.com/static/img/5D.png',
-  },
-  {
-    code: '0C',
-    value: 10,
-    image: 'https://deckofcardsapi.com/static/img/0C.png',
-  },
-];

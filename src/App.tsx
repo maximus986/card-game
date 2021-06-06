@@ -1,23 +1,29 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchCardsDeck } from 'game/gameSlice';
 import { Game } from 'game/Game';
 import { GlobalStyle } from 'components/GlobalStyle';
 import styled from '@emotion/styled';
 import { NumberOfPlayers } from 'game/NumberOfPlayers';
+import { RootState } from 'store';
+import { Winner } from 'game/Winner';
 
 function App() {
+  const gameState = useSelector((state: RootState) => state.game.gameState);
   const dispatch = useDispatch();
   // useEffect(() => {
   //   dispatch(fetchCardsDeck());
   // }, [dispatch]);
 
+  const isRoundOn = gameState === 'start' || gameState === 'roundEnd';
+
   return (
     <Container>
       <GlobalStyle />
-      <NumberOfPlayers />
-      <Game />
+      {gameState === 'initial' ? <NumberOfPlayers /> : null}
+      {isRoundOn ? <Game /> : null}
+      {gameState === 'end' ? <Winner /> : null}
     </Container>
   );
 }

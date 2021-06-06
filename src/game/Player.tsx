@@ -5,7 +5,6 @@ import { Card, PlayerName, PlayerScore } from 'components';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNextPlayer, setTableCards } from './gameSlice';
 import { RootState } from 'store';
-import { mockCards } from './Bot';
 // import { usePlay } from './usePlay';
 
 export const Player = () => {
@@ -13,7 +12,10 @@ export const Player = () => {
   const gameState = useSelector((state: RootState) => state.game.gameState);
   const score = useSelector((state: RootState) => state.game.score);
   const nextPlayer = useSelector((state: RootState) => state.game.nextPlayer);
-  const [cards, setCards] = useState<CardModel[]>(mockCards);
+  const playerCards = useSelector((state: RootState) => state.game.playerCards);
+  const [cards, setCards] = useState<CardModel[]>(
+    () => playerCards.find((item) => item.playerId === 'me')?.cards ?? [],
+  );
   const dispatch = useDispatch();
 
   const handlePlay = (card: CardModel) => {

@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Card, CardsDeck } from 'data/game/cardsDeck';
 import { gameRepository } from 'data/game/gameRepository';
 import { AppThunk } from 'store';
+import { mockCards } from './mockCards';
 
 type CardGame = 'initial' | 'start' | 'roundEnd' | 'end';
 export type Player = 'me' | 'bot1' | 'bot2' | 'bot3';
@@ -13,6 +14,11 @@ interface Score {
   playerId: Player;
 }
 
+interface PlayerCard {
+  playerId: Player;
+  cards: Card[];
+}
+
 interface GameState {
   cardsDeck: CardsDeck | null;
   numberOfPlayers: number;
@@ -20,6 +26,7 @@ interface GameState {
   tableCards: TableCards[];
   nextPlayer: Player;
   score: Score[];
+  playerCards: PlayerCard[];
 }
 
 const initialState: GameState = {
@@ -33,6 +40,24 @@ const initialState: GameState = {
     { playerId: 'bot1', value: 0 },
     { playerId: 'bot2', value: 0 },
     { playerId: 'bot3', value: 0 },
+  ],
+  playerCards: [
+    {
+      playerId: 'me',
+      cards: mockCards.splice(0, 2),
+    },
+    {
+      playerId: 'bot1',
+      cards: mockCards.splice(0, 2),
+    },
+    {
+      playerId: 'bot2',
+      cards: mockCards.splice(0, 2),
+    },
+    {
+      playerId: 'bot3',
+      cards: mockCards.splice(0, 2),
+    },
   ],
 };
 

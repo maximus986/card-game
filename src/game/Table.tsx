@@ -39,7 +39,6 @@ export const Table = () => {
       dispatch(setGameState('roundEnd'));
       const timeout = setTimeout(() => {
         dispatch(setResult());
-        dispatch(setGameState('start'));
         dispatch(emptyTableCards());
       }, 3000);
       return () => clearTimeout(timeout);

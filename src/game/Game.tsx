@@ -7,12 +7,7 @@ import { Player } from './Player';
 import { Table } from './Table';
 
 export const Game = () => {
-  const gameState = useSelector((state: RootState) => state.game.gameState);
   const cardsDeck = useSelector((state: RootState) => state.game.cardsDeck);
-
-  if (gameState === 'initial') {
-    return null;
-  }
 
   return (
     <>
