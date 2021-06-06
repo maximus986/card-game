@@ -4,13 +4,13 @@ import { gameRepository } from 'data/game/gameRepository';
 import { AppThunk } from 'store';
 
 type CardGame = 'initial' | 'start' | 'roundEnd' | 'end';
-export type NextPlayer = 'me' | 'bot1' | 'bot2' | 'bot3';
+export type Player = 'me' | 'bot1' | 'bot2' | 'bot3';
 interface TableCards extends Card {
-  playerId: NextPlayer; // TODO: Change interface to Player
+  playerId: Player;
 }
 interface Score {
   value: number;
-  playerId: NextPlayer;
+  playerId: Player;
 }
 
 interface GameState {
@@ -18,7 +18,7 @@ interface GameState {
   numberOfPlayers: number;
   gameState: CardGame;
   tableCards: TableCards[];
-  nextPlayer: NextPlayer;
+  nextPlayer: Player;
   score: Score[];
 }
 
@@ -56,7 +56,7 @@ const gameSlice = createSlice({
     emptyTableCards(state) {
       state.tableCards = [];
     },
-    setNextPlayer(state, { payload }: PayloadAction<NextPlayer>) {
+    setNextPlayer(state, { payload }: PayloadAction<Player>) {
       state.nextPlayer = payload;
     },
     setScore(state, { payload }: PayloadAction<Score>) {
@@ -79,13 +79,13 @@ export const fetchCardsDeck = (): AppThunk => async (dispatch) => {
 export const setResult = (): AppThunk => async (dispatch, getState) => {
   const { tableCards } = getState().game;
   const { score } = getState().game;
-  const winner = tableCards.reduce((prev, curr) =>
+  const roundWinner = tableCards.reduce((prev, curr) =>
     prev.value > curr.value ? prev : curr,
   );
   const roundScore = tableCards.reduce((sum, current) => sum + current.value, 0);
   const totalScore =
-    roundScore + score.find((item) => item.playerId === winner.playerId)?.value!;
-  dispatch(setScore({ value: totalScore, playerId: winner.playerId }));
+    roundScore + score.find((item) => item.playerId === roundWinner.playerId)?.value!;
+  dispatch(setScore({ value: totalScore, playerId: roundWinner.playerId }));
 };
 
 export const {

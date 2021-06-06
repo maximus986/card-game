@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Card, PlayerName, PlayerScore } from 'components';
 import { useDispatch, useSelector } from 'react-redux';
-import { setNextPlayer, setTableCards, NextPlayer } from './gameSlice';
+import { setNextPlayer, setTableCards } from './gameSlice';
 import { RootState } from 'store';
 import { mockCards } from './Bot';
 // import { usePlay } from './usePlay';
@@ -24,7 +24,6 @@ export const Player = () => {
   };
 
   const isDisabled = gameState === 'roundEnd' || nextPlayer !== 'me';
-  console.log('SCORE: ', score);
   const playerScore = score.find((item) => item.playerId === 'me')?.value;
 
   return (
@@ -65,7 +64,7 @@ const Button = styled.button<{ isDisabled: boolean }>`
   position: relative;
   display: block;
   transition: all linear 0.2s;
-  cursor: ${(props) => (props.isDisabled ? 'pointer' : 'initial')};
+  cursor: ${(props) => (props.isDisabled ? 'initial' : 'pointer')};
   &:hover {
     transform: ${(props) => (props.isDisabled ? null : 'translateY(-20px)')};
   }

@@ -3,14 +3,14 @@ import React, { useEffect, useState } from 'react';
 import cardBack from '../images/card-back.jpg';
 import styled from '@emotion/styled';
 import { Card, PlayerName, PlayerScore } from 'components';
-import { NextPlayer, setNextPlayer, setTableCards } from './gameSlice';
+import { Player, setNextPlayer, setTableCards } from './gameSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'store';
 
 interface BotProps {
   name: string;
-  botId: Exclude<NextPlayer, 'me'>;
-  nextToPlay: NextPlayer;
+  botId: Exclude<Player, 'me'>;
+  nextToPlay: Player;
 }
 
 export const Bot = ({ name, botId, nextToPlay }: BotProps) => {
