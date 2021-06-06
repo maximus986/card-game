@@ -1,22 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { Bot } from './Bot';
 import { Player } from './Player';
 import { Table } from './Table';
+import { fetchCardsDeck } from './gameSlice';
 
-export const Game = () => {
-  const cardsDeck = useSelector((state: RootState) => state.game.cardsDeck);
-
-  return (
-    <>
-      <TwoPlayers />
-      <ThreePlayers />
-      <FourPlayers />
-    </>
-  );
-};
+export const Game = () => (
+  <>
+    <TwoPlayers />
+    <ThreePlayers />
+    <FourPlayers />
+  </>
+);
 
 const TwoPlayers = () => {
   const numberOfPlayers = useSelector((state: RootState) => state.game.numberOfPlayers);

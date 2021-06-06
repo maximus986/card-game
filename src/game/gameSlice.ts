@@ -3,6 +3,7 @@ import { Card, CardsDeck } from 'data/game/cardsDeck';
 import { gameRepository } from 'data/game/gameRepository';
 import { AppThunk } from 'store';
 import { mockCards } from './mockCards';
+import { chunk, range } from 'lodash';
 
 type CardGame = 'initial' | 'start' | 'roundEnd' | 'end';
 export type Player = 'me' | 'bot1' | 'bot2' | 'bot3';
@@ -27,11 +28,12 @@ interface GameState {
   nextPlayer: Player;
   score: Score[];
   playerCards: PlayerCard[];
+  loadingCards: boolean;
 }
 
 const initialState: GameState = {
   cardsDeck: null,
-  numberOfPlayers: 4,
+  numberOfPlayers: 0,
   gameState: 'initial',
   tableCards: [],
   nextPlayer: 'me',
@@ -41,24 +43,8 @@ const initialState: GameState = {
     { playerId: 'bot2', value: 0 },
     { playerId: 'bot3', value: 0 },
   ],
-  playerCards: [
-    {
-      playerId: 'me',
-      cards: mockCards.splice(0, 2),
-    },
-    {
-      playerId: 'bot1',
-      cards: mockCards.splice(0, 2),
-    },
-    {
-      playerId: 'bot2',
-      cards: mockCards.splice(0, 2),
-    },
-    {
-      playerId: 'bot3',
-      cards: mockCards.splice(0, 2),
-    },
-  ],
+  playerCards: [],
+  loadingCards: true,
 };
 
 const gameSlice = createSlice({
@@ -70,7 +56,6 @@ const gameSlice = createSlice({
     },
     setNumberOfPlayers(state, { payload }: PayloadAction<number>) {
       state.numberOfPlayers = payload;
-      state.gameState = 'start';
     },
     setGameState(state, { payload }: PayloadAction<CardGame>) {
       state.gameState = payload;
@@ -89,6 +74,12 @@ const gameSlice = createSlice({
         item.playerId === payload.playerId ? { ...item, value: payload.value } : item,
       );
     },
+    setPlayerCards(state, { payload }: PayloadAction<PlayerCard>) {
+      state.playerCards.push(payload);
+    },
+    setLoadingCards(state, { payload }: PayloadAction<boolean>) {
+      state.loadingCards = payload;
+    },
   },
 });
 
@@ -96,12 +87,14 @@ export const fetchCardsDeck = (): AppThunk => async (dispatch) => {
   try {
     const cardsDeck = await gameRepository.fetchCardsDeck();
     dispatch(setCardsDeck(cardsDeck));
+    dispatch(setLoadingCards(false));
   } catch (error) {
-    console.log(error);
+    dispatch(setLoadingCards(false));
+    alert(`Fetching cards failed. Please try again. Reason: ${error.message}`);
   }
 };
 
-export const setResult = (): AppThunk => async (dispatch, getState) => {
+export const setResult = (): AppThunk => (dispatch, getState) => {
   const { tableCards } = getState().game;
   const { score } = getState().game;
   const roundWinner = tableCards.reduce((prev, curr) =>
@@ -113,6 +106,27 @@ export const setResult = (): AppThunk => async (dispatch, getState) => {
   dispatch(setScore({ value: totalScore, playerId: roundWinner.playerId }));
 };
 
+export const dealCards = (): AppThunk => (dispatch, getState) => {
+  const cards = getState().game.cardsDeck?.cards ?? [];
+  const numberOfCards = 10;
+  const piles = chunk(cards, numberOfCards);
+  piles.forEach((pile, index) => {
+    if (index === 0) {
+      dispatch(setPlayerCards({ cards: pile, playerId: 'me' as Player }));
+    } else {
+      dispatch(setPlayerCards({ cards: pile, playerId: `bot${index}` as Player }));
+    }
+  });
+};
+
+export const startGame =
+  (numberOfPlayers: number): AppThunk =>
+  (dispatch) => {
+    dispatch(setNumberOfPlayers(numberOfPlayers));
+    dispatch(setGameState('start'));
+    dispatch(dealCards());
+  };
+
 export const {
   setCardsDeck,
   setNumberOfPlayers,
@@ -121,6 +135,8 @@ export const {
   setNextPlayer,
   setScore,
   emptyTableCards,
+  setPlayerCards,
+  setLoadingCards,
 } = gameSlice.actions;
 
 export default gameSlice;

@@ -17,7 +17,7 @@ const deckNormalizer = (cardsDeck: CardsDeckDto): CardsDeck => ({
 
 const normalizeCardValue = (cardValue: string) => {
   switch (cardValue) {
-    case 'AS':
+    case 'ACE':
       return 1;
     case 'JACK':
       return 12;
