@@ -6,6 +6,6 @@ export interface CardsDeck {
 
 export interface Card {
   image: string;
-  value: string;
+  value: number;
   code: string;
 }

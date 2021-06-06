@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 import { Card } from 'data/game/cardsDeck';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
+import { setGameState, setResult, emptyTableCards } from './gameSlice';
 
 const positionMap: Record<number, React.CSSProperties> = {
   0: {
@@ -29,6 +30,22 @@ const positionMap: Record<number, React.CSSProperties> = {
 
 export const Table = () => {
   const cards = useSelector((state: RootState) => state.game.tableCards);
+  const numberOfPlayers = useSelector((state: RootState) => state.game.numberOfPlayers);
+  const dispatch = useDispatch();
+
+  // eslint-disable-next-line consistent-return
+  useEffect(() => {
+    if (cards.length === numberOfPlayers) {
+      dispatch(setGameState('roundEnd'));
+      const timeout = setTimeout(() => {
+        dispatch(setResult());
+        dispatch(setGameState('start'));
+        dispatch(emptyTableCards());
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [numberOfPlayers, dispatch, cards]);
+
   return (
     <CardsList>
       {cards.map((card, index) => (

@@ -10,6 +10,8 @@ export const Game = () => {
   const gameState = useSelector((state: RootState) => state.game.gameState);
   const cardsDeck = useSelector((state: RootState) => state.game.cardsDeck);
 
+  console.log(gameState);
+
   if (gameState === 'initial') {
     return null;
   }

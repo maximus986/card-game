@@ -5,24 +5,33 @@ import { Card, PlayerName, PlayerScore } from 'components';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNextPlayer, setTableCards, NextPlayer } from './gameSlice';
 import { RootState } from 'store';
+import { mockCards } from './Bot';
+// import { usePlay } from './usePlay';
 
 export const Player = () => {
-  const [cards, setCards] = useState<CardModel[]>(mockCards);
+  // const [handlePlay, cards] = usePlay(mockCards, 'bot1');
+  const gameState = useSelector((state: RootState) => state.game.gameState);
+  const score = useSelector((state: RootState) => state.game.score);
   const nextPlayer = useSelector((state: RootState) => state.game.nextPlayer);
+  const [cards, setCards] = useState<CardModel[]>(mockCards);
   const dispatch = useDispatch();
 
-  // TODO: Candidate for custom hook
   const handlePlay = (card: CardModel) => {
-    dispatch(setTableCards(card));
+    dispatch(setTableCards({ ...card, playerId: 'me' }));
     const afterPlayCards = cards.filter((playedCard) => playedCard.code !== card.code);
     setCards(afterPlayCards);
     dispatch(setNextPlayer('bot1'));
   };
+
+  const isDisabled = gameState === 'roundEnd' || nextPlayer !== 'me';
+  console.log('SCORE: ', score);
+  const playerScore = score.find((item) => item.playerId === 'me')?.value;
+
   return (
     <div>
       <PlayerInfo>
         <PlayerName variant="human">Me</PlayerName>
-        <PlayerScore>0</PlayerScore>
+        <PlayerScore>{playerScore}</PlayerScore>
       </PlayerInfo>
       <CardsList>
         {cards.map((card) => (
@@ -32,8 +41,8 @@ export const Player = () => {
                 handlePlay(card);
               }}
               type="button"
-              disabled={nextPlayer !== 'me'}
-              {...{ nextPlayer }}
+              disabled={isDisabled}
+              {...{ isDisabled }}
             >
               <Card image={card.image} />
             </Button>
@@ -52,65 +61,12 @@ const CardsList = styled.ul`
   display: flex;
 `;
 
-const Button = styled.button<{ nextPlayer: NextPlayer }>`
+const Button = styled.button<{ isDisabled: boolean }>`
   position: relative;
   display: block;
   transition: all linear 0.2s;
-  cursor: ${(props) => (props.nextPlayer === 'me' ? 'pointer' : 'initial')};
+  cursor: ${(props) => (props.isDisabled ? 'pointer' : 'initial')};
   &:hover {
-    transform: ${(props) => (props.nextPlayer === 'me' ? 'translateY(-20px)' : null)};
+    transform: ${(props) => (props.isDisabled ? null : 'translateY(-20px)')};
   }
 `;
-
-const mockCards: CardModel[] = [
-  {
-    code: 'AS',
-    image: 'https://deckofcardsapi.com/static/img/AS.png',
-    value: 'ACE',
-  },
-  {
-    code: '2S',
-    image: 'https://deckofcardsapi.com/static/img/2S.png',
-    value: '2',
-  },
-  {
-    code: '7S',
-    image: 'https://deckofcardsapi.com/static/img/7S.png',
-    value: '7',
-  },
-  {
-    code: '2H',
-    image: 'https://deckofcardsapi.com/static/img/2H.png',
-    value: '2',
-  },
-  {
-    code: 'QH',
-    image: 'https://deckofcardsapi.com/static/img/QH.png',
-    value: 'QUEEN',
-  },
-  {
-    code: '8H',
-    image: 'https://deckofcardsapi.com/static/img/8H.png',
-    value: '8',
-  },
-  {
-    code: '0S',
-    image: 'https://deckofcardsapi.com/static/img/0S.png',
-    value: '10',
-  },
-  {
-    code: '0H',
-    image: 'https://deckofcardsapi.com/static/img/0H.png',
-    value: '10',
-  },
-  {
-    code: '7D',
-    image: 'https://deckofcardsapi.com/static/img/7D.png',
-    value: '7',
-  },
-  {
-    code: '6C',
-    image: 'https://deckofcardsapi.com/static/img/6C.png',
-    value: '6',
-  },
-];
