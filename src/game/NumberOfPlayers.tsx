@@ -1,34 +1,25 @@
 import styled from '@emotion/styled';
+import { SelectNumberOfPlayers } from 'components';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { setNumberOfPlayers } from './gameSlice';
 
 export const NumberOfPlayers = () => {
   const gameState = useSelector((state: RootState) => state.game.gameState);
-  const dispatch = useDispatch();
   if (gameState !== 'initial') {
     return null;
   }
   return (
     <Container>
-      <div
-        style={{
-          width: '500px',
-          height: '500px',
-          background: '#6DB06D',
-          padding: '50px',
-        }}
-      >
-        <button type="button" onClick={() => dispatch(setNumberOfPlayers(2))}>
-          Two Players
-        </button>
-        <button type="button" onClick={() => dispatch(setNumberOfPlayers(3))}>
-          Three Players
-        </button>
-        <button type="button" onClick={() => dispatch(setNumberOfPlayers(4))}>
-          Four Players
-        </button>
+      <div>
+        <Title>Select number of players</Title>
+        <ButtonContainer>
+          <SelectNumberOfPlayers label="2 Players" numberOfPlayers={2} />
+        </ButtonContainer>
+        <ButtonContainer>
+          <SelectNumberOfPlayers label=" 3 Players" numberOfPlayers={3} />
+        </ButtonContainer>
+        <SelectNumberOfPlayers label=" 4 Players" numberOfPlayers={4} />
       </div>
     </Container>
   );
@@ -39,4 +30,15 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const Title = styled.h1`
+  font-size: 48px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #6db06d;
+`;
+
+const ButtonContainer = styled.div`
+  margin-bottom: 20px;
 `;

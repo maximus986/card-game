@@ -31,9 +31,10 @@ const CardsList = styled.ul`
 
 const Button = styled.button`
   position: relative;
+  display: block;
   transition: all linear 0.2s;
   &:hover {
-    bottom: 20px;
+    transform: translateY(-20px);
   }
 `;
 
