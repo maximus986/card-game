@@ -32,7 +32,7 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
   border-radius: 8px;
   transition: all 0.3s;
   &:hover {
-    ${(props) => (props.isDisabled ? null : '#6db06d')};
+    background: ${(props) => (props.isDisabled ? null : '#6db06d')};
   }
 `;
 
