@@ -7,14 +7,14 @@ import { Player, setGameState, setNextPlayer, setTableCards } from './gameSlice'
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'store';
 import { setTimeout } from 'timers';
+import { playerIdToPlayerNameMap } from './playerIdToPlayerNameMap';
 
 interface BotProps {
-  name: string;
   botId: Exclude<Player, 'me'>;
   nextToPlay: Player;
 }
 
-export const Bot = ({ name, botId, nextToPlay }: BotProps) => {
+export const Bot = ({ botId, nextToPlay }: BotProps) => {
   const playerCards = useSelector((state: RootState) => state.game.playerCards);
   const [cards, setCards] = useState<CardModel[]>(
     () => playerCards.find((item) => item.playerId === botId)?.cards ?? [],
@@ -68,7 +68,7 @@ export const Bot = ({ name, botId, nextToPlay }: BotProps) => {
   return (
     <div>
       <PlayerInfo>
-        <PlayerName>{name}</PlayerName>
+        <PlayerName>{playerIdToPlayerNameMap[botId]}</PlayerName>
         <PlayerScore>{playerScore}</PlayerScore>
       </PlayerInfo>
       <CardsList>

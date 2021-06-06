@@ -26,7 +26,7 @@ const TwoPlayers = () => {
             <BotContainer />
             <Table />
             <BotContainer>
-              <Bot name="Ola" botId="bot1" nextToPlay="me" />
+              <Bot botId="bot1" nextToPlay="me" />
             </BotContainer>
           </Flex>
           <PlayerContainer>
@@ -44,13 +44,13 @@ const ThreePlayers = () => {
       {numberOfPlayers === 3 ? (
         <>
           <BotContainer>
-            <Bot name="Rosetta" botId="bot2" nextToPlay="me" />
+            <Bot botId="bot2" nextToPlay="me" />
           </BotContainer>
           <Flex>
             <BotContainer />
             <Table />
             <BotContainer>
-              <Bot name="Ola" botId="bot1" nextToPlay="bot2" />
+              <Bot botId="bot1" nextToPlay="bot2" />
             </BotContainer>
           </Flex>
           <PlayerContainer>
@@ -69,15 +69,15 @@ const FourPlayers = () => {
       {numberOfPlayers === 4 ? (
         <>
           <BotContainer>
-            <Bot name="Rosetta" botId="bot2" nextToPlay="bot3" />
+            <Bot botId="bot2" nextToPlay="bot3" />
           </BotContainer>
           <Flex>
             <BotContainer>
-              <Bot name="Carolyn" botId="bot3" nextToPlay="me" />
+              <Bot botId="bot3" nextToPlay="me" />
             </BotContainer>
             <Table />
             <BotContainer>
-              <Bot name="Ola" botId="bot1" nextToPlay="bot2" />
+              <Bot botId="bot1" nextToPlay="bot2" />
             </BotContainer>
           </Flex>
           <PlayerContainer>
