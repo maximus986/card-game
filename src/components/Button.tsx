@@ -3,26 +3,36 @@ import styled from '@emotion/styled';
 
 interface ButtonProps {
   onClick: () => void;
+  isDisabled: boolean;
 }
 
-export const Button: FunctionComponent<ButtonProps> = ({ children, onClick }) => (
-  <StyledButton type="button" onClick={() => onClick()}>
+export const Button: FunctionComponent<ButtonProps> = ({
+  children,
+  onClick,
+  isDisabled,
+}) => (
+  <StyledButton
+    type="button"
+    onClick={() => onClick()}
+    disabled={isDisabled}
+    {...{ isDisabled }}
+  >
     <Label>{children}</Label>
   </StyledButton>
 );
 
-const StyledButton = styled.button`
+const StyledButton = styled.button<{ isDisabled: boolean }>`
   display: block;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: #ffc400;
+  background: ${(props) => (props.isDisabled ? '#ccc' : '#ffc400')};
   padding: 20px;
   border-radius: 8px;
   transition: all 0.3s;
   &:hover {
-    background: #6db06d;
+    ${(props) => (props.isDisabled ? null : '#6db06d')};
   }
 `;
 
