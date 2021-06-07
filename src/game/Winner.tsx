@@ -10,6 +10,7 @@ export const Winner = () => {
   const winnerId = score.reduce((prev, curr) =>
     prev.value > curr.value ? prev : curr,
   ).playerId;
+
   return (
     <Container>
       <Title>The winner is: {playerIdToPlayerNameMap[winnerId]} </Title>

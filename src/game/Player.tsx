@@ -4,15 +4,16 @@ import { Card, PlayerName, PlayerScore } from 'components';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { usePlay } from './usePlay';
+import { usePlayerScore } from './usePlayerScore';
 
 export const Player = () => {
   const [handlePlay, cards] = usePlay('me', 'bot1');
+  const playerScore = usePlayerScore('me');
+
   const gameState = useSelector((state: RootState) => state.game.gameState);
-  const score = useSelector((state: RootState) => state.game.score);
   const nextPlayer = useSelector((state: RootState) => state.game.nextPlayer);
 
   const isDisabled = gameState === 'roundEnd' || nextPlayer !== 'me';
-  const playerScore = score.find((item) => item.playerId === 'me')?.value;
 
   return (
     <div>

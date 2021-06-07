@@ -9,6 +9,7 @@ import { RootState } from 'store';
 import { setTimeout } from 'timers';
 import { playerIdToPlayerNameMap } from './playerIdToPlayerNameMap';
 import { usePlay } from './usePlay';
+import { usePlayerScore } from './usePlayerScore';
 
 interface BotProps {
   botId: Exclude<Player, 'me'>;
@@ -17,12 +18,13 @@ interface BotProps {
 
 export const Bot = ({ botId, nextToPlay }: BotProps) => {
   const [handlePlay, cards] = usePlay(botId, nextToPlay);
+  const playerScore = usePlayerScore(botId);
+
   const nextPlayer = useSelector((state: RootState) => state.game.nextPlayer);
   const numberOfPlayers = useSelector((state: RootState) => state.game.numberOfPlayers);
-  const score = useSelector((state: RootState) => state.game.score);
+
   const dispatch = useDispatch();
 
-  const playerScore = score.find((item) => item.playerId === botId)?.value;
   const handleEndGame = useCallback(() => {
     if (
       numberOfPlayers - 1 ===
