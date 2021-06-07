@@ -7,13 +7,36 @@ import ConfettiExplosion from '@reonomy/react-confetti-explosion';
 
 export const Winner = () => {
   const score = useSelector((state: RootState) => state.game.score);
-  const winnerId = score.reduce((prev, curr) =>
+  const winnerValue = score.reduce((prev, curr) =>
     prev.value > curr.value ? prev : curr,
-  ).playerId;
+  ).value;
+  const winnersScore = score.filter((item) => item.value === winnerValue);
+  const winnerText = winnersScore.length === 1 ? 'The winner is: ' : 'The winners are: ';
+
+  const handleWinners = () => {
+    switch (winnersScore.length) {
+      case 1:
+        return playerIdToPlayerNameMap[winnersScore[0].playerId];
+      case 2:
+        return `${playerIdToPlayerNameMap[winnersScore[0].playerId]} and ${
+          playerIdToPlayerNameMap[winnersScore[1].playerId]
+        }`;
+      case 3:
+        return `${playerIdToPlayerNameMap[winnersScore[0].playerId]}, ${
+          playerIdToPlayerNameMap[winnersScore[1].playerId]
+        } and ${playerIdToPlayerNameMap[winnersScore[2].playerId]}`;
+      default:
+        return `${playerIdToPlayerNameMap[winnersScore[0].playerId]}, ${
+          playerIdToPlayerNameMap[winnersScore[1].playerId]
+        }, ${playerIdToPlayerNameMap[winnersScore[2].playerId]} and ${
+          playerIdToPlayerNameMap[winnersScore[3].playerId]
+        }`;
+    }
+  };
 
   return (
     <Container>
-      <Title>The winner is: {playerIdToPlayerNameMap[winnerId]} </Title>
+      <Title>{`${winnerText} ${handleWinners()}`}</Title>
       <ConfettiExplosion
         force={0.4}
         duration={3000}
