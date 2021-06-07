@@ -22,11 +22,12 @@ const TwoPlayers = () => {
         <>
           <BotContainer />
           <Flex>
-            <BotContainer />
-            <Table />
             <BotContainer>
+              {' '}
               <Bot botId="bot1" nextToPlay="me" />
             </BotContainer>
+            <Table />
+            <BotContainer />
           </Flex>
           <PlayerContainer>
             <Player />
@@ -46,11 +47,11 @@ const ThreePlayers = () => {
             <Bot botId="bot2" nextToPlay="me" />
           </BotContainer>
           <Flex>
-            <BotContainer />
-            <Table />
             <BotContainer>
               <Bot botId="bot1" nextToPlay="bot2" />
             </BotContainer>
+            <Table />
+            <BotContainer />
           </Flex>
           <PlayerContainer>
             <Player />
@@ -68,15 +69,15 @@ const FourPlayers = () => {
       {numberOfPlayers === 4 ? (
         <>
           <BotContainer>
-            <Bot botId="bot2" nextToPlay="bot3" />
+            <Bot botId="bot2" nextToPlay="bot3" /> {/* Rosetta */}
           </BotContainer>
           <Flex>
             <BotContainer>
-              <Bot botId="bot3" nextToPlay="me" />
+              <Bot botId="bot1" nextToPlay="bot2" /> {/* Carolyn */}
             </BotContainer>
             <Table />
             <BotContainer>
-              <Bot botId="bot1" nextToPlay="bot2" />
+              <Bot botId="bot3" nextToPlay="me" /> {/* Ola */}
             </BotContainer>
           </Flex>
           <PlayerContainer>

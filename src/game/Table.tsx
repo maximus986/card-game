@@ -11,7 +11,7 @@ const positionMap: Record<number, React.CSSProperties> = {
     transform: 'translateX(-50%)',
   },
   1: {
-    right: 0,
+    left: 0,
     top: '50%',
     transform: 'translateY(-50%)',
   },
@@ -21,7 +21,7 @@ const positionMap: Record<number, React.CSSProperties> = {
     transform: 'translateX(-50%)',
   },
   3: {
-    left: 0,
+    right: 0,
     top: '50%',
     transform: 'translateY(-50%)',
   },
