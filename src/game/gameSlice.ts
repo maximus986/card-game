@@ -4,7 +4,7 @@ import { gameRepository } from 'data/game/gameRepository';
 import { AppThunk } from 'store';
 import { chunk, range } from 'lodash';
 
-type CardGame = 'initial' | 'start' | 'roundEnd' | 'end';
+type CardGame = 'start' | 'roundStart' | 'roundEnd' | 'end';
 export type Player = 'me' | 'bot1' | 'bot2' | 'bot3';
 interface TableCards extends Card {
   playerId: Player;
@@ -33,7 +33,7 @@ interface GameState {
 const initialState: GameState = {
   cardsDeck: null,
   numberOfPlayers: 0,
-  gameState: 'initial',
+  gameState: 'start',
   tableCards: [],
   nextPlayer: 'me',
   score: [],
@@ -124,7 +124,7 @@ export const startGame =
   (numberOfPlayers: number): AppThunk =>
   (dispatch) => {
     dispatch(setNumberOfPlayers(numberOfPlayers));
-    dispatch(setGameState('start'));
+    dispatch(setGameState('roundStart'));
     dispatch(dealCards());
   };
 

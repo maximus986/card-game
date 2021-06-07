@@ -33,7 +33,7 @@ export const Bot = ({ botId, nextToPlay }: BotProps) => {
     ) {
       dispatch(setGameState('end'));
     } else {
-      dispatch(setGameState('start'));
+      dispatch(setGameState('roundStart'));
     }
   }, [numberOfPlayers, botId, cards]);
 

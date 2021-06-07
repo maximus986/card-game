@@ -17,14 +17,14 @@ function App() {
     dispatch(fetchCardsDeck());
   }, [dispatch]);
 
-  const isRoundOn = gameState === 'start' || gameState === 'roundEnd';
+  const inPlay = gameState === 'roundStart' || gameState === 'roundEnd';
 
   return (
     <Container>
       <GlobalStyle />
       <Loading />
-      {gameState === 'initial' ? <NumberOfPlayers /> : null}
-      {isRoundOn ? <Game /> : null}
+      {gameState === 'start' ? <NumberOfPlayers /> : null}
+      {inPlay ? <Game /> : null}
       {gameState === 'end' ? <Winner /> : null}
     </Container>
   );
