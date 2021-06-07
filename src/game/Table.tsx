@@ -32,16 +32,16 @@ export const Table = () => {
   const numberOfPlayers = useSelector((state: RootState) => state.game.numberOfPlayers);
   const dispatch = useDispatch();
 
-  // eslint-disable-next-line consistent-return
   useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout>;
     if (cards.length === numberOfPlayers) {
       dispatch(setGameState('roundEnd'));
-      const timeout = setTimeout(() => {
+      timeout = setTimeout(() => {
         dispatch(setResult());
         dispatch(emptyTableCards());
       }, 3000);
-      return () => clearTimeout(timeout);
     }
+    return () => clearTimeout(timeout);
   }, [numberOfPlayers, dispatch, cards]);
 
   return (

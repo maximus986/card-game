@@ -36,7 +36,7 @@ export const Bot = ({ botId, nextToPlay }: BotProps) => {
   }, [numberOfPlayers, botId, cards]);
 
   useEffect(() => {
-    let timeout: any;
+    let timeout: ReturnType<typeof setTimeout>;
     if (nextPlayer === botId) {
       const randomTimeout = Math.floor(Math.random() * 5);
       timeout = setTimeout(() => {
