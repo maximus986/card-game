@@ -22,10 +22,14 @@ function App() {
   return (
     <Container>
       <GlobalStyle />
-      <LoadingContainer>
-        <LoadingIndicator />
-      </LoadingContainer>
-      {gameState === 'start' ? <NumberOfPlayers /> : null}
+      {gameState === 'start' ? (
+        <>
+          <LoadingContainer>
+            <LoadingIndicator />
+          </LoadingContainer>
+          <NumberOfPlayers />
+        </>
+      ) : null}
       {inPlay ? <Game /> : null}
       {gameState === 'end' ? <Winner /> : null}
     </Container>
