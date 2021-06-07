@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Card } from 'components';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
@@ -48,9 +49,7 @@ export const Table = () => {
     <CardsList>
       {cards.map((card, index) => (
         <CardsListItem key={`${card.code}_${index}`} style={positionMap[index]}>
-          <figure>
-            <img src={card.image} alt="" />
-          </figure>
+          <Card image={card.image} />
         </CardsListItem>
       ))}
     </CardsList>
@@ -58,12 +57,31 @@ export const Table = () => {
 };
 
 const CardsList = styled.ul`
-  width: 400px;
-  height: 400px;
+  width: 200px;
+  height: 100px;
   position: relative;
+  @media (min-width: 768px) {
+    width: 200px;
+    height: 125px;
+  }
+  @media (min-width: 992px) {
+    width: 275px;
+    height: 190px;
+  }
+  @media (min-width: 1280px) {
+    width: 300px;
+    height: 300px;
+  }
+  @media (min-width: 1600px) {
+    width: 400px;
+    height: 400px;
+  }
 `;
 
 const CardsListItem = styled.li`
-  width: 100px;
+  width: 50px;
   position: absolute;
+  @media (min-width: 992px) {
+    width: 100px;
+  }
 `;

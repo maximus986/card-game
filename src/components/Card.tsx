@@ -12,5 +12,11 @@ export const Card = ({ image }: CardProps) => (
 );
 
 const Figure = styled.figure`
-  width: 100px;
+  width: 35px;
+  @media (min-width: 768px) {
+    width: 40px;
+  }
+  @media (min-width: 992px) {
+    width: 50px;
+  }
 `;

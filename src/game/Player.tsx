@@ -42,7 +42,13 @@ export const Player = () => {
 };
 
 const PlayerInfo = styled.div`
-  margin-bottom: 24px;
+  margin-bottom: 8px;
+  @media (min-width: 768px) {
+    margin-bottom: 8px;
+  }
+  @media (min-width: 992px) {
+    margin-bottom: 24px;
+  }
 `;
 
 const CardsList = styled.ul`
@@ -55,6 +61,11 @@ const Button = styled.button<{ isDisabled: boolean }>`
   transition: all linear 0.2s;
   cursor: ${(props) => (props.isDisabled ? 'initial' : 'pointer')};
   &:hover {
-    transform: ${(props) => (props.isDisabled ? null : 'translateY(-20px)')};
+    transform: ${(props) => (props.isDisabled ? null : 'translateY(-5px)')};
+  }
+  @media (min-width: 992px) {
+    &:hover {
+      transform: ${(props) => (props.isDisabled ? null : 'translateY(-20px)')};
+    }
   }
 `;

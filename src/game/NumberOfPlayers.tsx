@@ -25,10 +25,14 @@ const Container = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 48px;
-  margin-bottom: 20px;
+  font-size: 28px;
+  margin-bottom: 10px;
   text-align: center;
   color: #6db06d;
+  @media (min-width: 992px) {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
 `;
 
 const ButtonContainer = styled.div`

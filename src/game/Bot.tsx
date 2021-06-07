@@ -66,10 +66,7 @@ export const Bot = ({ botId, nextToPlay }: BotProps) => {
       </PlayerInfo>
       <CardsList>
         {cards.map((card, index) => (
-          <CardsListItem
-            key={card.code}
-            style={{ left: `${index * 50}px`, zIndex: index }}
-          >
+          <CardsListItem key={card.code} {...{ index }}>
             <Card image={cardBack} />
           </CardsListItem>
         ))}
@@ -79,7 +76,10 @@ export const Bot = ({ botId, nextToPlay }: BotProps) => {
 };
 
 const PlayerInfo = styled.div`
-  margin-bottom: 24px;
+  margin-bottom: 8px;
+  @media (min-width: 992px) {
+    margin-bottom: 24px;
+  }
 `;
 
 const CardsList = styled.ul`
@@ -87,6 +87,17 @@ const CardsList = styled.ul`
   position: relative;
 `;
 
-const CardsListItem = styled.li`
+const CardsListItem = styled.li<{ index: number }>`
   position: absolute;
+  left: ${(props) => props.index * 10}px;
+  z-index: ${(props) => props.index};
+  @media (min-width: 768px) {
+    left: ${(props) => props.index * 25}px;
+  }
+  @media (min-width: 1280px) {
+    left: ${(props) => props.index * 40}px;
+  }
+  @media (min-width: 1600px) {
+    left: ${(props) => props.index * 50}px;
+  }
 `;

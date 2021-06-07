@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
@@ -20,10 +20,9 @@ const TwoPlayers = () => {
     <>
       {numberOfPlayers === 2 ? (
         <>
-          <BotContainer />
+          <TopBotContainer />
           <Flex>
             <BotContainer>
-              {' '}
               <Bot botId="bot1" nextToPlay="me" />
             </BotContainer>
             <Table />
@@ -43,9 +42,9 @@ const ThreePlayers = () => {
     <>
       {numberOfPlayers === 3 ? (
         <>
-          <BotContainer>
+          <TopBotContainer>
             <Bot botId="bot2" nextToPlay="me" />
-          </BotContainer>
+          </TopBotContainer>
           <Flex>
             <BotContainer>
               <Bot botId="bot1" nextToPlay="bot2" />
@@ -68,16 +67,16 @@ const FourPlayers = () => {
     <>
       {numberOfPlayers === 4 ? (
         <>
-          <BotContainer>
-            <Bot botId="bot2" nextToPlay="bot3" /> {/* Rosetta */}
-          </BotContainer>
+          <TopBotContainer>
+            <Bot botId="bot2" nextToPlay="bot3" />
+          </TopBotContainer>
           <Flex>
             <BotContainer>
-              <Bot botId="bot1" nextToPlay="bot2" /> {/* Carolyn */}
+              <Bot botId="bot1" nextToPlay="bot2" />
             </BotContainer>
             <Table />
             <BotContainer>
-              <Bot botId="bot3" nextToPlay="me" /> {/* Ola */}
+              <Bot botId="bot3" nextToPlay="me" />
             </BotContainer>
           </Flex>
           <PlayerContainer>
@@ -101,7 +100,39 @@ const PlayerContainer = styled.div`
 `;
 
 const BotContainer = styled.div`
-  height: 160px;
-  width: 551px;
+  height: 95px;
+  width: 125px;
+  @media (min-width: 768px) {
+    height: 103px;
+    width: 265px;
+  }
+  @media (min-width: 1280px) {
+    height: 172px;
+    width: 410px;
+  }
+  @media (min-width: 1600px) {
+    height: 160px;
+    width: 551px;
+  }
+`;
+const TopBotContainer = styled.div`
+  height: 95px;
+  width: 125px;
   margin: 0 auto;
+  @media (min-width: 768px) {
+    height: 103px;
+    width: 275px;
+  }
+  @media (min-width: 992px) {
+    height: 103px;
+    width: 265px;
+  }
+  @media (min-width: 1280px) {
+    height: 172px;
+    width: 410px;
+  }
+  @media (min-width: 1600px) {
+    height: 160px;
+    width: 551px;
+  }
 `;

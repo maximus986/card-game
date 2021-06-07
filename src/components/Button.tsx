@@ -28,11 +28,14 @@ const StyledButton = styled.button<{ isDisabled: boolean }>`
   justify-content: center;
   width: 100%;
   background: ${(props) => (props.isDisabled ? '#ccc' : '#ffc400')};
-  padding: 20px;
+  padding: 8px;
   border-radius: 8px;
   transition: all 0.3s;
   &:hover {
     background: ${(props) => (props.isDisabled ? null : '#6db06d')};
+  }
+  @media (min-width: 992px) {
+    padding: 20px;
   }
 `;
 

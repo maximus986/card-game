@@ -7,7 +7,7 @@ import styled from '@emotion/styled';
 import { NumberOfPlayers } from 'game/NumberOfPlayers';
 import { RootState } from 'store';
 import { Winner } from 'game/Winner';
-import Loader from 'react-loader-spinner';
+import { LoadingIndicator } from 'components';
 
 function App() {
   const gameState = useSelector((state: RootState) => state.game.gameState);
@@ -22,7 +22,9 @@ function App() {
   return (
     <Container>
       <GlobalStyle />
-      <Loading />
+      <LoadingContainer>
+        <LoadingIndicator />
+      </LoadingContainer>
       {gameState === 'start' ? <NumberOfPlayers /> : null}
       {inPlay ? <Game /> : null}
       {gameState === 'end' ? <Winner /> : null}
@@ -30,30 +32,20 @@ function App() {
   );
 }
 
-const Loading = () => {
-  const loadingCards = useSelector((state: RootState) => state.game.loadingCards);
-  return (
-    <>
-      {loadingCards ? (
-        <LoaderContainer>
-          <Loader type="Bars" color="#ffc400" height={100} width={100} />
-        </LoaderContainer>
-      ) : null}
-    </>
-  );
-};
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 50px;
+  padding: 10px;
   background: #0f3923;
+  @media (min-width: 992px) {
+    padding: 50px;
+  }
 `;
 
-const LoaderContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+const LoadingContainer = styled.div`
+  width: 40px;
+  height: 40px;
+  align-self: center;
 `;
 
 export default App;

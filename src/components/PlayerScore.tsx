@@ -6,6 +6,9 @@ export const PlayerScore: FunctionComponent = ({ children }) => (
 );
 
 const Score = styled.p`
-  font-size: 24px;
+  font-size: 14px;
   color: #fff;
+  @media (min-width: 992px) {
+    font-size: 24px;
+  }
 `;
