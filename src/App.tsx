@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCardsDeck } from 'game/gameSlice';
 import { Game } from 'game/Game';
