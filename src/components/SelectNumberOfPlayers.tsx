@@ -1,4 +1,4 @@
-import { startGame } from 'game/gameSlice';
+import { NumberOfPlayersRange, startGame } from 'game/gameSlice';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
@@ -6,7 +6,7 @@ import { Button } from './Button';
 
 interface SelectNumberOfPlayersProps {
   label: string;
-  numberOfPlayers: number;
+  numberOfPlayers: NumberOfPlayersRange;
 }
 
 export const SelectNumberOfPlayers = ({

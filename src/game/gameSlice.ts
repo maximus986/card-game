@@ -4,24 +4,26 @@ import { gameRepository } from 'data/game/gameRepository';
 import { AppThunk } from 'store';
 import { chunk, range } from 'lodash';
 
-type CardGame = 'start' | 'roundStart' | 'roundEnd' | 'end';
+export type CardGame = 'start' | 'roundStart' | 'roundEnd' | 'end';
 export type Player = 'me' | 'bot1' | 'bot2' | 'bot3';
-interface TableCards extends Card {
+export interface TableCards extends Card {
   playerId: Player;
 }
-interface Score {
+export interface Score {
   value: number;
   playerId: Player;
 }
 
-interface PlayerCard {
+export interface PlayerCard {
   playerId: Player;
   cards: Card[];
 }
 
+export type NumberOfPlayersRange = 0 | 2 | 3 | 4;
+
 interface GameState {
   cardsDeck: CardsDeck | null;
-  numberOfPlayers: number;
+  numberOfPlayers: NumberOfPlayersRange;
   gameState: CardGame;
   tableCards: TableCards[];
   nextPlayer: Player;
@@ -48,9 +50,12 @@ const gameSlice = createSlice({
     setCardsDeck(state, { payload }: PayloadAction<CardsDeck>) {
       state.cardsDeck = payload;
     },
-    setNumberOfPlayers(state, { payload }: PayloadAction<number>) {
+    setNumberOfPlayers(state, { payload }: PayloadAction<NumberOfPlayersRange>) {
       state.numberOfPlayers = payload;
-      range(0, payload).forEach((i) => {
+    },
+    initializeScore(state) {
+      const { numberOfPlayers } = state;
+      range(0, numberOfPlayers).forEach((i) => {
         if (i === 0) {
           state.score.push({ playerId: 'me', value: 0 });
         } else {
@@ -121,9 +126,10 @@ export const dealCards = (): AppThunk => (dispatch, getState) => {
 };
 
 export const startGame =
-  (numberOfPlayers: number): AppThunk =>
+  (numberOfPlayers: NumberOfPlayersRange): AppThunk =>
   (dispatch) => {
     dispatch(setNumberOfPlayers(numberOfPlayers));
+    dispatch(initializeScore());
     dispatch(setGameState('roundStart'));
     dispatch(dealCards());
   };
@@ -138,6 +144,7 @@ export const {
   emptyTableCards,
   setPlayerCards,
   setLoadingCards,
+  initializeScore,
 } = gameSlice.actions;
 
 export default gameSlice;
