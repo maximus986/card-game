@@ -19,4 +19,7 @@ const Figure = styled.figure`
   @media (min-width: 992px) {
     width: 50px;
   }
+  @media (min-width: 1600px) {
+    width: 100px;
+  }
 `;
